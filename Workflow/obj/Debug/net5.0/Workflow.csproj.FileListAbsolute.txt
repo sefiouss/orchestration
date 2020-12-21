@@ -1,0 +1,16 @@
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.csprojAssemblyReference.cache
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.GeneratedMSBuildEditorConfig.editorconfig
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.AssemblyInfoInputs.cache
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.AssemblyInfo.cs
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.csproj.CoreCompileInputs.cache
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.exe
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.deps.json
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.runtimeconfig.json
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.runtimeconfig.dev.json
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.dll
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\ref\Workflow.dll
+E:\Playground\Workflow\Workflow\Workflow\bin\Debug\net5.0\Workflow.pdb
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.dll
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\ref\Workflow.dll
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.pdb
+E:\Playground\Workflow\Workflow\Workflow\obj\Debug\net5.0\Workflow.genruntimeconfig.cache
