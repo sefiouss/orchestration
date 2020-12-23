@@ -22,17 +22,18 @@ namespace POC
 
         public override Task Retry(CancellationToken cancellationToken)
         {
-            return this.Start(cancellationToken);
+            //return this.Start(cancellationToken);
+            throw new NotImplementedException();
         }
 
-        public override async Task Start(CancellationToken cancellationToken)
+        public override async Task Start(dynamic conf, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 Console.WriteLine("Cancelled !");
                 this.Status = TaskStatus.Cancelled;
 
-                await TheBestEventHub.Instance.Publish($"TaskEvents/{this.TaskId}/End", "Cancelled");
+                await RedisPubSub.Instance.Publish(new PubSubChannel($"Tasks/{this.TaskId}/status"), new PubSubMessage("Cancelled"));
 
                 return;
             }
@@ -43,7 +44,7 @@ namespace POC
 
             this.Status = TaskStatus.Succeeded;
 
-            await TheBestEventHub.Instance.Publish($"TaskEvents/{this.TaskId}/End", "Succeeded");
+            await RedisPubSub.Instance.Publish(new PubSubChannel($"Tasks/{this.TaskId}/status"), new PubSubMessage("Succeeded"));
         }
     }
 }

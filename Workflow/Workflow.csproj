@@ -6,4 +6,12 @@
     <RootNamespace>POC</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="TheBestEventHub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+  </ItemGroup>
+
 </Project>

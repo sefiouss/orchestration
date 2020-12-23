@@ -12,7 +12,9 @@ namespace POC
 
             var ctsource = new CancellationTokenSource();
 
-            var task = em.InstanciateAndStart("Orange Connector", ctsource.Token);
+            dynamic config = new { Username = "admin", Password = "Lmn7op54#" };
+
+            var task = em.InstanciateAndStart("Orange Connector", config, ctsource.Token);
             
             ctsource.CancelAfter(3000);
 

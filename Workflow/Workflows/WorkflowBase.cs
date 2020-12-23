@@ -42,18 +42,17 @@ namespace POC
             throw new NotImplementedException();
         }
 
-        public virtual async Task Start(CancellationToken cancellationToken)
+        public virtual async Task Start(object conf, CancellationToken cancellationToken)
         {
             this.Status = WorkflowStatus.Running;
 
-            // if task ends with an event setup the listeners
-            TheBestEventHub.Instance.RaiseEvent += Instance_RaiseEvent;
-
             foreach (var twistTask in this.Tasks)
             {
-                var retryCount = 0;
                 this.currentTask = twistTask;
 
+                await RedisPubSub.Instance.Subscribe(new PubSubChannel($"Tasks/{this.currentTask.TaskId}/status"), OnMessageReceived);
+
+                var retryCount = 0;
                 int timeout = (int)twistTask.Timeout.TotalSeconds;
 
                 // Retry logic
@@ -65,7 +64,7 @@ namespace POC
                 var task = taskCompletionSource.Task;
 
                 Console.WriteLine($"[WorkflowBase] Starting {twistTask.Name}:");
-                await twistTask.Start(cancellationToken);
+                await twistTask.Start(conf, cancellationToken);
 
                 if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
                 {
@@ -90,6 +89,8 @@ namespace POC
                     goto RetryBlock;
                 }
 
+                await RedisPubSub.Instance.Unsubscribe(new PubSubChannel($"Tasks/{this.currentTask.TaskId}/status"), OnMessageReceived);
+
                 if (this.currentTask.Status != TaskStatus.Succeeded)
                 {
                     this.Status = WorkflowStatus.Failed;
@@ -113,43 +114,37 @@ namespace POC
                 }
             }
 
-            TheBestEventHub.Instance.RaiseEvent -= Instance_RaiseEvent;
         }
 
-        private void Instance_RaiseEvent(object sender, TheBestEventHubEventArgs e)
+        private void OnMessageReceived(PubSubChannel channel, PubSubMessage message)
         {
             if (this.Status != WorkflowStatus.Running)
             {
                 return;
             }
 
-            if (e.Channel.Contains(this.currentTask.TaskId.ToString()))
+            Console.WriteLine($"[WorkflowBase] {this.currentTask.Name} received an event with message " + message.Content);
+
+            switch (message.Content)
             {
-                Console.WriteLine($"[WorkflowBase] {this.currentTask.Name} received an event with message " + e.Message);
+                case "Succeeded":
+                    {
+                        taskCompletionSource.SetResult(TaskStatus.Succeeded);
 
-                switch (e.Message)
-                {
-                    case "Succeeded":
-                        {
-                            taskCompletionSource.SetResult(TaskStatus.Succeeded);
+                        break;
+                    }
+                case "Failed":
+                    {
+                        taskCompletionSource.SetResult(TaskStatus.Failed);
+                        break;
+                    }
 
-                            break;
-                        }
-                    case "Failed":
-                        {
-                            taskCompletionSource.SetResult(TaskStatus.Failed);
-                            break;
-                        }
-
-                    case "Cancelled":
-                        {
-                            taskCompletionSource.SetResult(TaskStatus.Cancelled);
-                            break;
-                        }
-                }
+                case "Cancelled":
+                    {
+                        taskCompletionSource.SetResult(TaskStatus.Cancelled);
+                        break;
+                    }
             }
-
         }
-
     }
 }

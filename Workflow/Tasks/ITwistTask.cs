@@ -8,7 +8,7 @@ namespace POC
 {
     public interface ITwistTask
     {
-        Task Start(CancellationToken cancellationToken);
+        Task Start(dynamic conf, CancellationToken cancellationToken);
 
         Task Cancel();
 

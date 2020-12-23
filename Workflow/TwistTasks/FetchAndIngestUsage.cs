@@ -25,15 +25,15 @@ namespace POC
             throw new NotImplementedException();
         }
 
-        public override async Task Start(CancellationToken cancellationToken)
+        public override async Task Start(dynamic conf, CancellationToken cancellationToken)
         {
             this.Status = TaskStatus.Running;
 
             await Task.Delay(1000);
 
-            //this.Status = TaskStatus.Succeeded;
+            this.Status = TaskStatus.Succeeded;
 
-            //await TheBestEventHub.Instance.Publish($"TaskEvents/{this.TaskId}/End", "Succeeded");
+            await RedisPubSub.Instance.Publish(new PubSubChannel($"Tasks/{this.TaskId}/status"), new PubSubMessage("Succeeded"));
         }
     }
 }

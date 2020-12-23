@@ -9,13 +9,14 @@ namespace POC
 {
     public class ExecutionManager
     {
-        public async Task InstanciateAndStart(string name, CancellationToken cancellationToken)
+        public async Task InstanciateAndStart(string name, dynamic config, CancellationToken cancellationToken)
         {
             var wf = WorkflowDefinitions.Instance.GetWorkflow(name);
 
             Console.WriteLine($"[ExecutionManager] starting '{wf.Name}' WORKFLOW version {wf.Version}.");
+
             
-            await wf.Start(cancellationToken);
+            await wf.Start(config, cancellationToken);
 
             Console.WriteLine("[ExecutionManager] WORKFLOW finished with status " + wf.Status);
 

@@ -12,7 +12,7 @@ namespace POC
         string Version { get; set; }
         WorkflowStatus Status { get; }
         LinkedList<ITwistTask> Tasks { get; set;  }
-        Task Start(CancellationToken cancellationToken);
+        Task Start(dynamic conf, CancellationToken cancellationToken);
         Task Pause();
         Task Resume();
         Task Cancel();

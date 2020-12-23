@@ -10,6 +10,7 @@ namespace POC
     public abstract class TwistTaskBase : ITwistTask
     {
         private string[] endEventsNames { get; set; }
+       
         public TwistTaskBase(Guid taskId)
         {
             this.TaskId = taskId;
@@ -40,6 +41,6 @@ namespace POC
 
         public abstract Task Retry(CancellationToken cancellationToken);
 
-        public abstract Task Start(CancellationToken cancellationToken);
+        public abstract Task Start(dynamic conf, CancellationToken cancellationToken);
     }
 }
