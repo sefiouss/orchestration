@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace POC
+namespace POC.WB
 {
     public interface IWorkflow
     {

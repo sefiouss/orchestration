@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+using POC.Steps;
+using POC.WB;
 
 namespace POC
 {
@@ -13,7 +12,8 @@ namespace POC
 
         private readonly string[] events = new[] { "TaskEvents/{{TaskId}}/Ended" };
 
-        private WorkflowDefinitions() {
+        private WorkflowDefinitions()
+        {
             this.Workflows = new List<IWorkflow>();
 
             this.Workflows.Add(this.BuildOrangeConnector());

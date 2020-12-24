@@ -4,26 +4,64 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using POC.Workflows.WFC.Operators;
+using WorkflowCore.Interface;
+using WorkflowCore.Models;
+using WorkflowCore.Models.LifeCycleEvents;
 
 namespace POC
 {
     public class ExecutionManager
     {
-        public async Task InstanciateAndStart(string name, dynamic config, CancellationToken cancellationToken)
+        private readonly IWorkflowHost _workflowHost;
+
+        public ExecutionManager(IWorkflowHost workflowHost)
         {
-            var wf = WorkflowDefinitions.Instance.GetWorkflow(name);
+            _workflowHost = workflowHost;
+        }
 
-            Console.WriteLine($"[ExecutionManager] starting '{wf.Name}' WORKFLOW version {wf.Version}.");
+        public async Task InstanciateAndStart(string name, OrangeWorkflowConfig config, CancellationToken cancellationToken)
+        {
+            var wfId = await _workflowHost.StartWorkflow(name, config);
+            var wf = await _workflowHost.PersistenceStore.GetWorkflowInstance(wfId);
+            //var wf = WorkflowDefinitions.Instance.GetWorkflow(name);
+            Console.WriteLine($"[ExecutionManager] started '{wf.Id}' WORKFLOW version {wf.Version}.");
 
-            
-            await wf.Start(config, cancellationToken);
-
+            //await wf.Start(config, cancellationToken);
             Console.WriteLine("[ExecutionManager] WORKFLOW finished with status " + wf.Status);
 
-            foreach (var task in wf.Tasks)
+            Console.WriteLine(wf.ExecutionPointers);
+
+            _workflowHost.OnLifeCycleEvent += Handle;
+            _workflowHost.OnStepError += HandleError;
+            
+
+            var def = _workflowHost.Registry.GetDefinition(name);
+
+            foreach (WorkflowStep task in def.Steps)
             {
-                Console.WriteLine($"\t- {task.Name}\t\t{task.Status}");
+                Console.WriteLine($"\t- {task.Name}");
             }
+
+            while (wf.CompleteTime == null)
+            {
+                await Task.Delay(5000);
+            }
+            _workflowHost.OnLifeCycleEvent -= Handle;
+            _workflowHost.OnStepError -= HandleError;
+        }
+
+        private void HandleError(WorkflowInstance workflow, WorkflowStep step, Exception exception)
+        {
+            if (exception is /*FileScraperNotFound*/ Exception)
+            {
+                //Figure out a way to retry this step
+            }
+        }
+
+        private void Handle(LifeCycleEvent evt)
+        {
+            Console.WriteLine("Event fired: {0}", evt.ToString());
         }
 
         public void SaveState()

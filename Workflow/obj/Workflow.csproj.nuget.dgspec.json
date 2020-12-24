@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Playground\\Workflow\\Workflow\\Workflow\\Workflow.csproj": {}
+    "C:\\dev\\Rubix\\orchestration\\Workflow\\Workflow.csproj": {}
   },
   "projects": {
-    "E:\\Playground\\Workflow\\Workflow\\Workflow\\Workflow.csproj": {
+    "C:\\dev\\Rubix\\orchestration\\Workflow\\Workflow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Playground\\Workflow\\Workflow\\Workflow\\Workflow.csproj",
+        "projectUniqueName": "C:\\dev\\Rubix\\orchestration\\Workflow\\Workflow.csproj",
         "projectName": "Workflow",
-        "projectPath": "E:\\Playground\\Workflow\\Workflow\\Workflow\\Workflow.csproj",
-        "packagesPath": "C:\\Users\\Ouss\\.nuget\\packages\\",
-        "outputPath": "E:\\Playground\\Workflow\\Workflow\\Workflow\\obj\\",
+        "projectPath": "C:\\dev\\Rubix\\orchestration\\Workflow\\Workflow.csproj",
+        "packagesPath": "C:\\Users\\Jamal Salman\\.nuget\\packages\\",
+        "outputPath": "C:\\dev\\Rubix\\orchestration\\Workflow\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Ouss\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Jamal Salman\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -46,9 +44,21 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "StackExchange.Redis": {
               "target": "Package",
               "version": "[2.2.4, )"
+            },
+            "WorkflowCore": {
+              "target": "Package",
+              "version": "[3.3.3, )"
             }
           },
           "imports": [
